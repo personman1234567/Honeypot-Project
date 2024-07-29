@@ -105,3 +105,26 @@ Attackers were immediately being displayed on the map, so I decided to explore f
 3. **Geographic Distribution:** Similarly to the previous section, this one seems to be measuring attack volume, but from each country rather than from each IP. The US takes the cake with this one with 7903 hits!
 4. **Event Logs:** This last section seems to be the most important, because it kind of combines the previous section, while also including a timestamp, and specifying which honeypot was hit
 </details>
+
+<details>
+<summary>Kibana</summary>
+
+The other tool I wanted to explore was the Kibana tool. From my initial understanding, Kibana is the tool that provides visualizations like charts, graphs, and maps, which would help in analyzing these large volumes of data more effectively than just the attack map.
+
+![image](https://github.com/user-attachments/assets/5b05cc05-2e0c-4207-8086-38cf53972dde)
+> The first look at the dashboard shows a list of all of the different honeypots T-Pot utilizes
+
+After exploring some of them, I noticed some of them didn't seem to be doing anything. But the one I noticed the most activity in by far was the Cowrie honeypot. Get ready for a very large screenshot!
+
+![image](https://github.com/user-attachments/assets/67f4c436-c787-455d-82fd-edbb378e9a65)
+> My initial thoughts from seeing this can be put simply into two words... Information Overload!!!
+
+All the charts, graphs, acronyms, colors, and numbers were overwhelming at first glance. To make sense of it all, I decided to narrow my focus and examine each section individually rather than trying to connect everything at once. This approach proved to be very effective! So here was my thought process:
+
+* The top section makes complete sense. You have Attacks, Unique source IPs, and Unique HASSHs, along with 2 different visualizations, one showing the count, and the other showing the count over a range of time. And then there is also a smaller version of an attack map, which already makes sense because I'm an attack map expert already.
+* Moving down I noticed that a lot of these charts are heavily coorelated with eachother, but give different visualizations that can help you understand trends better, so you can identify any anomoly. There is a graph for IP Reputation, Attacks from countries, attacks by port numbers, and ssh versions. Then the two bigger graphs below that combines all of that info in a much more detailed and readable graph. One random thing I noticed was that Australia in particular seems to only use ssh, whereas all other countries at least sometimes use telnet. I enjoy the random statistics.
+* The next part of the page was pretty easy to understand what was going on. I saw a display of the most common username login attempts, and then adjacent to that, a display of the most common password attempts. I noticed that the most common of each seem to be the default credentials on most systems, so the attackers are probably trying to find systems that never ended up changing their default credentials, since it would be easy to gain access. And a side note: I found it funny that some of the password attempts were very rude or explicit.
+* The bottom section of the page is the part I found the most interesting. You have a list of the top attacker ASNs, the top attacker IPs, and then a list of the top commands that were run on my machine. Initially I realized that the fact that commands were executed on my machine, implied that there are many attackers that were SUCCESSFUL in getting into my system. I saw that they were running all sorts of commands that would give them information about the versions and hardware of my machine. While I know that the honeypot was created with intentional vulnerabilities, I was curious as to how I could prevent some of these attacks from happening, which is what I will be playing around with as an experiment in a later section
+* By far the organization that I seemed to be attacked by the most was DIGITALOCEAN-ASN. There was a link that I could click from that dashboard [here](https://mxtoolbox.com/SuperTool.aspx?action=asn%3a14061) that would display all of the IPs associated with this ASN, so I was wondering if it would be efficient to just block every single IP/CIDR Range listed on this website so that this organization can't attack me anymore. After researching about what Digital Ocean actually is, I realized that it is a cloud service provider similar to Vultr (the one I'm using). So every single IP address isn't going to be a malicious one, so it would by WAY overkill to restrict access from that entire organization. I will go further into this in my experiment I do in a later section.
+
+</details>
