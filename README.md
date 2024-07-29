@@ -1,14 +1,17 @@
 # Honeypot-Project
 
-### Overview:
+## Overview:
 
 Driven by curiosity and the aim of understanding network security and threat detection more deeply, I decided to work on a personal project to deploy and analyze a honeypot environment using the T-Pot platform on a Debian 12 cloud instance. The objective was to capture, analyze, and understand attack patterns to enhance my cybersecurity skills!
 
-### Project Setup and Deployment:
+## Project Setup and Deployment:
 
 Upon establishing what I wanted to do, I faced the inevitable barrage of initial challenges that come with starting any ambitious/technical project. Questions swirled around like a hive of curious bees: Where will I host this honeypot? How will I create it? And let's be honest... what exactly is a honeypot?
 
-#### VULTR Cloud Service
+<details>
+<summary>Cloud Service Provider</summary>
+
+### VULTR Cloud Service
 
 With all of that in mind, I decided that the best first step was to determine where to host the project, as using my own computer didn't seem like the most... practical option. After some research, I discovered [Vultr](https://www.vultr.com/), a promising and cost-efficient cloud service provider. Upon signing up, I was pleasantly surprised to receive $100 in free credits, allowing me to run my machine and experiment freely for the next two months without any cost!
 
@@ -17,15 +20,20 @@ When deploying and configuring my new machine, I was presented with a variety of
 
 And just like that, the EpicHoneypot server was all ready to go—except for the small detail that I needed to setup the actual honeypot.
 ![image](https://github.com/user-attachments/assets/922360a5-9d7d-4eab-b66b-8c59fb8a5809)
+</details>
 
-#### The Honeypot
+<details>
+<summary>Honeypot</summary>
+  
+### The Honeypot
 
 Now that the host is set up, I needed to find out which honeypot I wanted to utilize. Looking online I found many different options all with their own pros and cons, making the decision challenging. That was until I came across a popular honeypot framework called T-Pot that integrates several of the honeypots into one cohesive system. The idea of deploying multiple honeypots sounded far more productive than just one, so I decided to deploy T-Pot on my system.
+</details>
 
 <details>
 <summary>T-Pot Setup Guide</summary>
   
-#### Setting Up T-Pot (Walkthrough)
+### Setting Up T-Pot (Walkthrough)
 Reffering to the T-Pot Documentation [here](https://github.security.telekom.com/2024/04/honeypot-tpot-24.04-released.html#t-pot-data-folder), I found that I chose the PERFECT time to figure out how to set this up, because as of April 2024, the T-Pot ISO image is no longer provided! Which is super convenient because every video tutorial I came across used that ISO image, so I had to figure out this installation with just myself and the documentation. But I was determined, and I will now show you how it's done.
 
 * For the purpose of documentation, I am repeating the setup on a Test machine, separate from my actual project. We begin by logging into the machine for the first time with the default credentials provided by Vultr:
@@ -73,5 +81,27 @@ Reffering to the T-Pot Documentation [here](https://github.security.telekom.com/
   ![image](https://github.com/user-attachments/assets/1cdc5952-1826-4fc2-b010-80af10fbb0b9)
 </details>
 
+## First Impressions
+<details>
+<summary>Attack Map</summary>
 
+### Attack Map
 
+#### Main Page
+When I first accessed the T-Pot Dashboard, I immediately wanted to check out the attack map. The pictures and videos I had seen of it were fascinating, and getting to see a live feed of events in real time on my own machine was something I was really excited for.
+
+On my first look at the attack map, I was very impressed by the beautiful user interface, the seamless animations, and the way the data was presented so cleanly and intuitively. The design and functionality made it easy to grasp the information at a glance. 
+![image](https://github.com/user-attachments/assets/daa47475-fdfe-4b96-89a4-3840ef1b84d6)
+
+Attackers were immediately being displayed on the map, so I decided to explore further to see what information I could uncover with this tool. Each attack point revealed detailed insights about the origin and nature of the attacks. I noticed they all also displayed the reputation of each particular source IP. I wanted to look further into where that reputation was being scored, so that's something I'll investigate in further detail later in my project.
+
+![image](https://github.com/user-attachments/assets/aa277f1c-77e3-4013-b891-0820996cc308)
+
+#### Attack Statistics
+![image](https://github.com/user-attachments/assets/d3488b96-8647-4867-87bc-a8882560e80c)
+
+1. **Service Type:** Starting at the left I noticed that the map categorizes attacks by the service, which is represented by different colors. I noticed that DNS seems to be the most common just from looking at the map since most of the attack points are green
+2. **Attack Volume:** The next section seems to be data that reveals the unique IPs that have the highest volume of attacks on my machine. 187.137.210.115 just won't leave my machine alone it seems!
+3. **Geographic Distribution:** Similarly to the previous section, this one seems to be measuring attack volume, but from each country rather than from each IP. The US takes the cake with this one with 7903 hits!
+4. **Event Logs:** This last section seems to be the most important, because it kind of combines the previous section, while also including a timestamp, and specifying which honeypot was hit
+</details>
