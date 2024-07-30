@@ -203,3 +203,10 @@ Looking around at all the different IP Reputation websites, I found one called [
 
 </details>
 </details>
+
+<details>
+<summary>Experiment 2</summary>
+  
+### Automation
+I finished this, but it has yet to be documented here. I will add the documentation soon!
+</details>
