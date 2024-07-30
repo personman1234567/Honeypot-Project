@@ -128,3 +128,44 @@ All the charts, graphs, acronyms, colors, and numbers were overwhelming at first
 * By far the organization that I seemed to be attacked by the most was DIGITALOCEAN-ASN. There was a link that I could click from that dashboard [here](https://mxtoolbox.com/SuperTool.aspx?action=asn%3a14061) that would display all of the IPs associated with this ASN, so I was wondering if it would be efficient to just block every single IP/CIDR Range listed on this website so that this organization can't attack me anymore. After researching about what Digital Ocean actually is, I realized that it is a cloud service provider similar to Vultr (the one I'm using). So every single IP address isn't going to be a malicious one, so it would by WAY overkill to restrict access from that entire organization. I will go further into this in my experiment I do in a later section.
 
 </details>
+
+## Deep Dive Activities
+
+<details>
+<summary>Experiment 1</summary>
+  
+### IP Reputation
+
+After exploring the Cisco [Talos](https://www.talosintelligence.com/) website that the Kibana dashboard directs you to when clicking on an IP address, I discovered that there are databases that maintain information about the reputation of each IP address. This inspired me to create a script that leverages these resources to determine the reputation of a given IP address. And based off of those values, I wanted to make the script block the IPs with poor reputations by updating the firewall rules via iptables.
+
+While this approach wasn't the most practical, my initial plan was to implement a web scraping tool within my script to extract the reputation value from the Talos website. Typically, the IP's reputation was simply graded as either "Poor" or "Neutral," as shown in the screenshot below:
+![image](https://github.com/user-attachments/assets/fea1f8e0-ca8c-4233-accf-bb2d48731e39)
+
+<details>
+<summary>Attempt 1</summary>
+  
+#### Python Script Attempt 1
+![image](https://github.com/user-attachments/assets/fd9e30e4-2f3f-46f9-ba45-2040371887cd)
+> This here was my first attempt for this experiment. No, I did not write it all in one try, but after a lot of work and fixing confusing errors I finally got it to execute!
+
+* First things first, the main function. I wanted to get the skeleton of this code to run before I added more dynamic inputs, so I just made it to where it can take in a simple list of IP addresses, and index through and execute the "get_ip_reputation" function for each of the IPs in the list.
+* Moving on, we are brought to the "get_ip_reputation". This is where the "magic" happens! It's just a shame that magic isn't real, because this function did not work how I wanted it to. The thought process was to utilize a tool I discovered called [BeautifulSoup](https://github.com/wention/BeautifulSoup4) (A tool used for pulling data out of HTML and XML files). I wanted to use this tool to grab the reputation score straight from the website. I found the class name always started with "rep-" and then was proceeded by either "Poor" or "Neutral".
+* This method did not end up working for a few reasons:
+  * Web scraping is sometimes not permitted by websites, so to prevent it, the website's structure changes, which is something my script cannot handle
+  * Even if it did work, this method would be very resource intensive when you consider the scale, and the amount of IPs I would be checking the reputation for, so this was just not a good method
+* The output of this script unfortunately displayed "None" in the spots that were supposed to display the reputation score
+</details>
+
+<details>
+<summary>Attempt 2</summary>
+
+#### Python Script Attempt 2
+![image](https://github.com/user-attachments/assets/00704c3e-43d9-43d8-ba45-622e2b4bf989)
+> This attempt was honestly just a lost cause. I was trying to implement too many different tools to work with eachother
+</details>
+
+<details>
+<summary>Successful Attempt</summary>
+
+</details>
+</details>
