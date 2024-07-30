@@ -162,10 +162,44 @@ While this approach wasn't the most practical, my initial plan was to implement 
 #### Python Script Attempt 2
 ![image](https://github.com/user-attachments/assets/00704c3e-43d9-43d8-ba45-622e2b4bf989)
 > This attempt was honestly just a lost cause. I was trying to implement too many different tools to work with eachother
+
+* Unfortunately this attampt was not that much closer to the solution than the last. My mind was still set on web scraping from Talos, so I decided to try a more advanced tool called [selenium](https://github.com/SeleniumHQ/selenium) to accomplish this.
+* The only alteration in my script was in the "get_ip_reputation" function to make it work with this new selenium tool.
+* This process involved initializing a web driver to open the url, and that aspect alone brought up so many issues that I could not manage to debug.
+* In the end, the outcome was the same as the last, where the output displayed "None" instead of the reputation score it was supposed to grab.
 </details>
 
 <details>
 <summary>Successful Attempt</summary>
+
+#### Python Script Success
+
+Third times a charm right? The universe confirmed that's right, becuase this time around I did it! In this approach, I had to take a step back. No more web scraping. I decided to try and find if there was just a way to get this information directly, maybe through an API. After a lot of searching, I came to realize that there was no publically available API for Talos... But what if their was a publically available API for another IP Reputation source? (There is. And I used it)
+
+Looking around at all the different IP Reputation websites, I found one called [AbuseIPDB](https://www.abuseipdb.com/). Just by registering to their website, they give you access to a free option to make API calls. 1,000 calls a day was plenty enough for me to get this script working the way it should.
+
+![GetIPReputation_Function](https://github.com/user-attachments/assets/173e021b-bdc5-49c4-a3ce-7469ea197fdc)
+> Had to scribble out my API key since I'm putting this on the internet
+
+* Finally! a "get_ip_reputation" function that works! Using the API made the process much simpler. I just simply passed in the IP address, and from that I am able to access the value of every detail associated with that IP.
+* This website also seemed to have a more detailed measurement on the reputation. Instead of Talos displaying "Poor" or "Neutral", AbuseIPDB goes a step forward and measures their reputation on a scale of 0-100, with 100 meaning very malicious.
+* Furthermore, with this API I got to access all of the other values instead of just the reputation, so I wanted to make my script output the score as well as the ASN, just so I could confirm that it all worked.
+
+![AbuseIPDB_Script_Output](https://github.com/user-attachments/assets/e5545f6f-6860-4be2-86f0-051cdc194b25)
+>This is the output after running my script
+
+* As you can see, the output indicates that things are working perfectly!
+* I fed 3 different IPs to the script that would all give me different outputs. There is a very malicious one from Digital Ocean, there is my own IP, and finally another random one that was only slightly malicious.
+* The cooresponding reputation scores all line up with the AbuseIPDB website, and to check even further I double checked these same IPs on Talos and the reputations were consistent on both websites.
+
+![Block_IP](https://github.com/user-attachments/assets/6aaabea3-5213-46b7-a804-ef875326b330)
+> The main aspect of the experiment
+
+* And last but not least, the whole reason behind creating this script is illustrated by this function.
+* The "get_ip_reputation" returns the numerical reputation score back to main, which them moves on to a conditional if statement. If the score that was returned comes back as more than 75, then we're going to consider that malicious and block it.
+* In this function, the IP is sent over, and a couple of commands are run using that value.
+* To be put simply, these lines are adding a rule for the incomming traffic, and outgoing traffic to that IP address, all packets are dropped.
+* Then finally the updated IP Table is saved so that these rules will persist.
 
 </details>
 </details>
